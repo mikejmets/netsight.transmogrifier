@@ -1,4 +1,4 @@
-BASE_DIR = '/home/zope/transmogrifer_export/'
+BASE_DIR = '/var/local/breadbin/exports/'
 
 # patches
 import logging
