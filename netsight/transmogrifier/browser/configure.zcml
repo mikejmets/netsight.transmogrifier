@@ -5,7 +5,7 @@
    i18n_domain="netsight.transmogrifier">
 
   <browser:page
-     name="netsight_do_import"
+     name="import-content"
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".views.Utils"
      attribute="do_import"
@@ -13,13 +13,12 @@
      />
   
   <browser:page
-     name="netsight_do_export"
+     name="export-content"
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      class=".views.Utils"
      attribute="do_export"
      permission="cmf.ManagePortal"
      />
   
-
 </configure>
 

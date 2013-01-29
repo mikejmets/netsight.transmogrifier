@@ -1,8 +1,15 @@
-BASE_DIR = '/var/local/breadbin/exports/'
+BASE_DIR = '/var/local/exports/'
 
 # patches
 import logging
 logger = logging.getLogger('netsight.transmogrifier:patches')
+
+try:
+    from iw.fss.interfaces import IFSSInfo
+    Is_FSS = True
+    logger.info('IW.FSS enabled')
+except:
+    Is_FSS = False
 
 # make sure we unicode all filenames
 from quintagroup.transmogrifier.binary import FileExporterSection
@@ -14,7 +21,10 @@ def extractFile(self, obj, field):
     field = obj.getField(field)
     fname = field.getFilename(obj)
     ct = field.getContentType(obj)
-    value = str(raw)
+    if raw and Is_FSS:
+        value = str(raw.data)
+    else:
+        value = str(raw)
 
     return fname, ct, value
 
@@ -27,7 +37,7 @@ from Products.Archetypes.utils import shasattr
 
 
 def isBinary(self, key):
-    """Return wether a field contains binary data.
+    """Return whether a field contains binary data.
     """
     field = self.getField(key)
     # pretend that all file fields are binary
@@ -104,7 +114,8 @@ def importReferences(self, data):
     if not isinstance(data, unicode):
         data = unicode(data, 'utf-8', 'ignore')
     data = data.encode('utf-8')
-    return old_importReferences(self, data)
+    if len(data) > 0:
+        return old_importReferences(self, data)
 
 ReferenceImporter.importReferences = importReferences
 logger.info('Patching quintagroup.transmogrifier.adapters.importing.ReferenceImporter to support dodgy characters')

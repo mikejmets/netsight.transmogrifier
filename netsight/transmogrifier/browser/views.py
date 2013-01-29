@@ -1,13 +1,14 @@
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
-from collective.transmogrifier.transmogrifier import configuration_registry
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.transmogrifier.interfaces import ITransmogrifier
-import tempfile
+from collective.transmogrifier.transmogrifier import configuration_registry
+from netsight.transmogrifier import BASE_DIR
+
+import datetime
 import logging
 import os
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
-
-from netsight.transmogrifier import BASE_DIR
+import tempfile
 
 logger = logging.getLogger('netsight.transmogrifier')
 
@@ -58,13 +59,19 @@ class Utils(BrowserView):
 
     def do_export(self, path=None):
         if not path:
+            #path = '/'.join(self.context.getPhysicalPath())
             return 'Please provide a path (e.g. path=/plonesite/path/to/folder)'
 
         normpath = path.replace('/', '_')
         if normpath.startswith('_'):
             normpath = normpath[1:]
 
-        temp_pipeline_id = 'export-netsight-%s' % normpath
+        #Construct File Name: domain-path-timestamp
+        domain = self.context.absolute_url().split('/')[2]
+        ts = str(datetime.datetime.now())[:19]
+        temp_pipeline_id = '%s-%s-%s' % (domain, normpath, ts)
+        temp_pipeline_id = temp_pipeline_id.replace(' ', '-')
+        temp_pipeline_id = temp_pipeline_id.replace(':', '-')
         output_dir = BASE_DIR + temp_pipeline_id
 
         config = """
@@ -124,4 +131,4 @@ keys =
 
     def available_imports(self):
         filenames = os.listdir(BASE_DIR)
-        return [x for x in filenames if x.startswith('export-')]
+        return [x for x in filenames]
