@@ -19,7 +19,11 @@ old_extractFile = FileExporterSection.extractFile
 def extractFile(self, obj, field):
     raw = obj.getField(field).getRaw(obj)
     field = obj.getField(field)
-    fname = field.getFilename(obj)
+    try:
+        fname = field.getFilename(obj)
+    except Exception, e:
+        logging.error('Exceptin extracting file: %s' % str(e))
+        return "", "", ""
     ct = field.getContentType(obj)
     if raw and Is_FSS:
         value = str(raw.data)
