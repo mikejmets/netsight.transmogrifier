@@ -83,9 +83,11 @@ def patched_iter(self):
     for suid, rel_fields in REFERENCE_QUEUE.items():
         instance = rc.lookupObject(suid)
         if instance is None:
-            error = 'Could not find ob to set references for for %s %s' % (suid, rel_fields)
+            error = 'Could not find ob to set references for for %s %s' % (
+                        suid, rel_fields)
             print error
-            open(ERRORS_FILENAME, 'a+').write('%s %s\n' % (datetime.now(), error))
+            open(ERRORS_FILENAME, 'a+').write(
+                    '%s %s\n' % (datetime.now(), error))
             continue
 
         for fname, tuids in rel_fields.items():
@@ -106,19 +108,19 @@ from quintagroup.transmogrifier.references import ReferencesImporterSection
 ReferencesImporterSection.__iter__ = patched_iter
 logger.info('Patching quintagroup.transmogrifier.references to log and write reference issues')
 
-# Patch references import with unicode support
-from quintagroup.transmogrifier.adapters.importing import ReferenceImporter
-old_importReferences = ReferenceImporter.importReferences
-
-def importReferences(self, data):
-    if not isinstance(data, unicode):
-        data = unicode(data, 'utf-8', 'ignore')
-    data = data.encode('utf-8')
-    if len(data) > 0:
-        return old_importReferences(self, data)
-
-ReferenceImporter.importReferences = importReferences
-logger.info('Patching quintagroup.transmogrifier.adapters.importing.ReferenceImporter to support dodgy characters')
+## # Patch references import with unicode support
+## from quintagroup.transmogrifier.adapters.importing import ReferenceImporter
+## old_importReferences = ReferenceImporter.importReferences
+## 
+## def pathedImportReferences(self, data):
+##     if not isinstance(data, unicode):
+##         data = unicode(data, 'utf-8', 'ignore')
+##     data = data.encode('utf-8')
+##     if len(data) > 0:
+##         return old_importReferences(self, data)
+## 
+## ReferenceImporter.importReferences = pathedImportReferences
+## logger.info('Patching quintagroup.transmogrifier.adapters.importing.ReferenceImporter to support dodgy characters')
 
 from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
 def notifyModified(self):

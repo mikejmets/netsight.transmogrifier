@@ -60,6 +60,7 @@ class Utils(BrowserView):
     def do_export(self, path=None):
         if not path:
             #path = '/'.join(self.context.getPhysicalPath())
+            #Good idea but doesn't work!@
             return 'Please provide a path (e.g. path=/plonesite/path/to/folder)'
 
         normpath = path.replace('/', '_')

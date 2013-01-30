@@ -74,7 +74,6 @@ class ExtrasExporterSection(object):
                     extradata['default_page'] = objectids[0]
 
             if obj.meta_type == 'CSRNomination':
-                # store next/prev setting and default page
                 extradata['ratings'] = obj.getRatings()
 
             # ROLES EXPORT
