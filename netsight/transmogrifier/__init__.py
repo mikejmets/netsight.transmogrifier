@@ -126,8 +126,8 @@ logger.info('Patching quintagroup.transmogrifier.references to log and write ref
 ## ReferenceImporter.importReferences = pathedImportReferences
 ## logger.info('Patching quintagroup.transmogrifier.adapters.importing.ReferenceImporter to support dodgy characters')
 
-from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
-def notifyModified(self):
-    pass
-ExtensibleMetadata.notifyModified = notifyModified
-logger.info('Patching Archetypes.ExtensibleMetadata to avoid updating modified')
+#MJM from Products.Archetypes.ExtensibleMetadata import ExtensibleMetadata
+#MJM def notifyModified(self):
+#MJM     pass
+#MJM ExtensibleMetadata.notifyModified = notifyModified
+#MJM logger.info('Patching Archetypes.ExtensibleMetadata to avoid updating modified')

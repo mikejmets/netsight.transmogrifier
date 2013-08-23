@@ -47,6 +47,7 @@ class DataCorrectorSection(object):
             REMAPPINGS = {
                 'LargeDocument' : 'ContentFolder',
                 'ForumsFolder' : 'ContentFolder',
+                'ATFolder' : 'Folder',
                 }
             if typekey:
                 # Unfortunately these type switches are borked later on
