@@ -1,4 +1,4 @@
-BASE_DIR = '/var/local/exports/'
+BASE_DIR = '/tmp/'
 
 # patches
 import logging
